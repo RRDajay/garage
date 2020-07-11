@@ -1,6 +1,7 @@
 """Discrete MLP QFunction."""
 import tensorflow as tf
 
+from garage.experiment import deterministic
 from garage.tf.models import MLPDuelingModel, MLPModel
 from garage.tf.q_functions.q_function import QFunction
 
@@ -45,10 +46,12 @@ class DiscreteMLPQFunction(QFunction):
                  name=None,
                  hidden_sizes=(32, 32),
                  hidden_nonlinearity=tf.nn.relu,
-                 hidden_w_init=tf.initializers.glorot_uniform(),
+                 hidden_w_init=tf.initializers.glorot_uniform(
+                     seed=deterministic.get_tf_seed_stream()),
                  hidden_b_init=tf.zeros_initializer(),
                  output_nonlinearity=None,
-                 output_w_init=tf.initializers.glorot_uniform(),
+                 output_w_init=tf.initializers.glorot_uniform(
+                     seed=deterministic.get_tf_seed_stream()),
                  output_b_init=tf.zeros_initializer(),
                  dueling=False,
                  layer_normalization=False):
